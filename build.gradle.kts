@@ -34,6 +34,7 @@ kotlin {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
                 implementation("io.ktor:ktor-client-core:$ktorVersion")
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
             }
         }
 
@@ -66,6 +67,10 @@ kotlin {
                 implementation(project.dependencies.enforcedPlatform("org.jetbrains.kotlin-wrappers:kotlin-wrappers-bom:$kotlinWrappersVersion"))
                 implementation("org.jetbrains.kotlin-wrappers:kotlin-react")
                 implementation("org.jetbrains.kotlin-wrappers:kotlin-react-dom")
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-react-router-dom")
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-emotion")
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-mui")
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-mui-icons")
             }
         }
     }
@@ -73,6 +78,7 @@ kotlin {
 
 application {
     mainClass.set("ServerKt")
+    applicationDefaultJvmArgs = listOf("-Dio.ktor.development=true")
 }
 
 // include JS artifacts in any JAR we generate
