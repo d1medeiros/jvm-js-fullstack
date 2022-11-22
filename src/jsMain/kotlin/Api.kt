@@ -33,3 +33,15 @@ suspend fun moveToDone(id: String) {
         setBody(EventDTO(finished =  true))
     }
 }
+
+suspend fun getTimes(): String {
+    return jsonClient.get("$endpoint/times").body()
+}
+
+suspend fun timesPlus(subject: Subject) {
+    jsonClient.put("$endpoint/times?plus=$subject")
+}
+
+suspend fun timesMinus(subject: Subject) {
+    jsonClient.put("$endpoint/times?minus=$subject")
+}

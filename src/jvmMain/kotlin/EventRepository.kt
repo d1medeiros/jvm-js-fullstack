@@ -1,5 +1,5 @@
 import kotlinx.datetime.LocalDateTime
-import java.util.UUID
+import java.util.*
 
 class EventRepository {
     companion object {
@@ -7,6 +7,7 @@ class EventRepository {
             Event(
                 id = UUID.randomUUID().toString(),
                 label = "Encher gasolina",
+                resume = "Ir ao posto por gasolina no automovel",
                 dataBase = LocalDateTime(2022, 11, 13, 0, 0),
                 frequency = Frequency(1, 1, Subject.WEEK, 1),
                 type = Type.CAR,
@@ -15,6 +16,7 @@ class EventRepository {
             Event(
                 id = UUID.randomUUID().toString(),
                 label = "Lavar louça",
+                resume = "Lavar louça gerada pelas refeições",
                 dataBase = LocalDateTime(2022, 11, 13, 0, 0),
                 frequency = Frequency(2, 1, Subject.DAY, 2),
                 type = Type.HOME,
@@ -23,14 +25,16 @@ class EventRepository {
             Event(
                 id = UUID.randomUUID().toString(),
                 label = "Check up",
+                resume = "Verificação no medico com exames",
                 dataBase = LocalDateTime(2022, 11, 13, 0, 0),
                 frequency = Frequency(3, 1, Subject.YEAR, 3),
-                type = Type.HOME,
+                type = Type.HEALTH,
                 notebookId = defaultList
             ),
             Event(
                 id = UUID.randomUUID().toString(),
                 label = "Lavar carro",
+                resume = "Ir no lava-jato para limpar o carro",
                 dataBase = LocalDateTime(2022, 11, 13, 0, 0),
                 frequency = Frequency(4, 1, Subject.MONTH, 4),
                 type = Type.CAR,

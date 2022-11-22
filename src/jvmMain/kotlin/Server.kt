@@ -11,17 +11,16 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.Clock
+import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Duration.Companion.minutes
 
-var globalTime = Clock.System.now().toLocalDateTime(tz)
+var globalTime = LocalDateTime(2022, 11, 13, 0, 0)
 fun main() {
     val eventRepository = EventRepository()
     val eventComponent = EventComponent(eventRepository)
@@ -55,41 +54,62 @@ fun main() {
             static("/") {
                 resources("")
             }
-            route("/times"){
+            route("/times") {
+                get {
+                    call.respond(globalTime.toString())
+                }
                 put {
                     when {
-                        call.request.queryParameters["plus"] == "day"
-                            -> globalTime = globalTime.plusFrequency(Frequency(
-                            times = 1,
-                            subject = Subject.DAY
-                        ))
-                        call.request.queryParameters["plus"] == "week"
-                        -> globalTime = globalTime.plusFrequency(Frequency(
-                            times = 1,
-                            subject = Subject.WEEK
-                        ))
-                        call.request.queryParameters["plus"] == "month"
-                        -> globalTime = globalTime.plusFrequency(Frequency(
-                            times = 1,
-                            subject = Subject.MONTH
-                        ))
-                        call.request.queryParameters["minus"] == "day"
-                        -> globalTime = globalTime.minusFrequency(Frequency(
-                            times = 1,
-                            subject = Subject.DAY
-                        ))
-                        call.request.queryParameters["minus"] == "week"
-                        -> globalTime = globalTime.minusFrequency(Frequency(
-                            times = 1,
-                            subject = Subject.WEEK
-                        ))
-                        call.request.queryParameters["minus"] == "month"
-                        -> globalTime = globalTime.minusFrequency(Frequency(
-                            times = 1,
-                            subject = Subject.MONTH
-                        ))
+                        call.request.queryParameters["plus"] == "DAY"
+                        -> globalTime = globalTime.plusFrequency(
+                            Frequency(
+                                times = 1,
+                                subject = Subject.DAY
+                            )
+                        )
+
+                        call.request.queryParameters["plus"] == "WEEK"
+                        -> globalTime = globalTime.plusFrequency(
+                            Frequency(
+                                times = 1,
+                                subject = Subject.WEEK
+                            )
+                        )
+
+                        call.request.queryParameters["plus"] == "MONTH"
+                        -> globalTime = globalTime.plusFrequency(
+                            Frequency(
+                                times = 1,
+                                subject = Subject.MONTH
+                            )
+                        )
+
+                        call.request.queryParameters["minus"] == "DAY"
+                        -> globalTime = globalTime.minusFrequency(
+                            Frequency(
+                                times = 1,
+                                subject = Subject.DAY
+                            )
+                        )
+
+                        call.request.queryParameters["minus"] == "WEEK"
+                        -> globalTime = globalTime.minusFrequency(
+                            Frequency(
+                                times = 1,
+                                subject = Subject.WEEK
+                            )
+                        )
+
+                        call.request.queryParameters["minus"] == "MONTH"
+                        -> globalTime = globalTime.minusFrequency(
+                            Frequency(
+                                times = 1,
+                                subject = Subject.MONTH
+                            )
+                        )
                     }
                     eventManager.run(globalTime)
+                    call.respond("ok")
                 }
             }
             route("/events") {

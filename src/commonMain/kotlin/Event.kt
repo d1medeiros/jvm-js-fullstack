@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 data class Event(
     val id: String? = null,
     val label: String,
+    val resume: String? = null,
     @Contextual
     var dataBase: LocalDateTime,
     var frequency: Frequency? = null,

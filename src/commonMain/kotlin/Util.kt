@@ -12,14 +12,6 @@ fun LocalDateTime.plusFrequency(frequency: Frequency): LocalDateTime {
     }
 }
 
-fun plus(ldt: LocalDateTime, time: Long, dtu: DateTimeUnit): LocalDateTime {
-   return ldt.toInstant(tz).plus(time, dtu, tz).toLocalDateTime(tz)
-}
-
-fun minus(ldt: LocalDateTime, time: Long, dtu: DateTimeUnit): LocalDateTime {
-   return ldt.toInstant(tz).minus(time, dtu, tz).toLocalDateTime(tz)
-}
-
 fun LocalDateTime.minusFrequency(frequency: Frequency): LocalDateTime {
     val t = frequency.times.toLong()
     return when (frequency.subject) {
@@ -31,9 +23,21 @@ fun LocalDateTime.minusFrequency(frequency: Frequency): LocalDateTime {
     }
 }
 
-fun LocalDateTime.isAfterOrEqual(date: LocalDateTime): Boolean {
-    return this.toJavaLocalDateTime().isAfter(date.toJavaLocalDateTime())
-        .or(this.toJavaLocalDateTime().isEqual(date.toJavaLocalDateTime()))
+fun plus(ldt: LocalDateTime, time: Long, dtu: DateTimeUnit): LocalDateTime {
+    return ldt.toInstant(tz).plus(time, dtu, tz).toLocalDateTime(tz)
+}
+
+fun minus(ldt: LocalDateTime, time: Long, dtu: DateTimeUnit): LocalDateTime {
+    return ldt.toInstant(tz).minus(time, dtu, tz).toLocalDateTime(tz)
+}
+
+fun LocalDateTime.isAfterOrEqual(d2: LocalDateTime): Boolean {
+    val compareTo = this.compareTo(d2)
+    return when {
+        compareTo < 0 -> false
+        compareTo == 0 -> true
+        else -> true
+    }
 }
 
 fun LocalDateTime.isLimit(date: LocalDateTime): Boolean {
@@ -42,7 +46,7 @@ fun LocalDateTime.isLimit(date: LocalDateTime): Boolean {
 }
 
 fun Frequency?.getNextDateTime(dataBase: LocalDateTime): LocalDateTime {
-   return this?.let {
+    return this?.let {
         dataBase.plusFrequency(it)
     } ?: throw Exception("frequency is null")
 }
@@ -54,6 +58,7 @@ fun Byte.toBoolean(): Boolean {
         else -> false
     }
 }
+
 fun Boolean.toByte(): Byte {
     return when (this) {
         true -> 0.toByte()
