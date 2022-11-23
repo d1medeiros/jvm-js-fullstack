@@ -39,6 +39,13 @@ fun LocalDateTime.isAfterOrEqual(d2: LocalDateTime): Boolean {
         else -> true
     }
 }
+fun LocalDateTime.isAfter(d2: LocalDateTime): Boolean {
+    val compareTo = this.compareTo(d2)
+    return when {
+        compareTo <= 0 -> false
+        else -> true
+    }
+}
 
 fun LocalDateTime.isLimit(date: LocalDateTime): Boolean {
     val plusWeeks = plus(this, 1L, DateTimeUnit.WEEK)

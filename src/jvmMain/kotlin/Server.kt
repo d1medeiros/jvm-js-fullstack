@@ -125,7 +125,7 @@ fun main() {
                     val id = call.parameters["id"] ?: ""
                     val event = call.receive(EventDTO::class)
                     when {
-                        event.finished != null -> eventComponent.updateDaily(id, event.finished!!)
+                        event.finished != null -> eventComponent.updateDaily(id, event.finished!!, globalTime)
                     }
                     call.respond("{}")
                 }

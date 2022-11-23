@@ -98,7 +98,7 @@ val BaseContainer = FC<BaseContainerProps> {
                                     this.hidden = detailIndexMO == item.id
                                     this.dateRed = dateTime
                                         ?.takeIf { title === "diario" }
-                                        ?.let { item.dataBase.isLimit(it) } ?: false
+                                        ?.let { item.baseDate.isLimit(it) } ?: false
                                 }
                             }
                         }

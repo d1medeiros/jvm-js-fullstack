@@ -5,7 +5,7 @@ class DelayedEventTrigger(
 ) : EventTrigger {
     override fun send(event: Event, dateTime: LocalDateTime): Event? {
         val lastEvent = eventComponent.findAllDaily().firstOrNull {
-            it.label == event.label && it.dataBase.isLimit(dateTime)
+            it.label == event.label && it.baseDate.isLimit(dateTime)
         }
         if (lastEvent != null) {
             eventComponent.updateToDelayed(event.id!!)

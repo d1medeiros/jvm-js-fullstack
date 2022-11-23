@@ -19,8 +19,13 @@ class EventComponent(
         eventRepository.update(id = id, notebookId = defaultList, dataBaseU = nextDateTime)
     }
 
-    fun updateDaily(id: String, finished: Boolean) {
-        eventRepository.update(id, dailyList, finishedU = finished)
+    fun updateDaily(id: String, finished: Boolean, closeDate: LocalDateTime) {
+        eventRepository.update(id, dailyList, finishedU = finished, closeDateU = closeDate)
+        eventRepository.findByIdAndNotebookId(id, defaultList)
+            ?.takeIf { closeDate.isAfter(it.baseDate) }
+            ?.run {
+                eventRepository.update(id = this.id!!, notebookId = this.notebookId!!, dataBaseU = closeDate)
+            }
     }
 
     fun save(event: Event) {
