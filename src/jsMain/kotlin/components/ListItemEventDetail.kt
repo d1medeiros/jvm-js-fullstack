@@ -39,6 +39,7 @@ val ListItemEventDetail = FC<EventDetailProps> {
         }
         Typography {
             hidden = !(it.hidden ?: false)
+            variant = TypographyVariant.caption
             +"${event.frequency?.times}x ${event.frequency?.subject.toString()}"
         }
     }

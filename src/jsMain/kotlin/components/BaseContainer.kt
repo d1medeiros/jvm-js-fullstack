@@ -5,6 +5,8 @@ import getEventDailyList
 import getTimes
 import isLimit
 import kotlinx.browser.document
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDateTime
@@ -18,6 +20,7 @@ private val scope = MainScope()
 
 external interface BaseContainerProps : Props {
     var title: String
+    var getList: (CoroutineScope)-> Deferred<List<Event>>
 }
 
 val BaseContainer = FC<BaseContainerProps> {
@@ -29,7 +32,7 @@ val BaseContainer = FC<BaseContainerProps> {
 
     useEffectOnce {
         scope.launch {
-            eventList = getEventDailyList()
+            eventList =  it.getList(this).await()
             dateTime = LocalDateTime.parse(getTimes())
         }
     }
