@@ -1,8 +1,9 @@
 import kotlinx.browser.document
 import pages.DailyList
-import pages.DelayedList
 import pages.DefaultList
-import react.*
+import pages.DelayedList
+import react.VFC
+import react.create
 import react.dom.client.createRoot
 import react.router.Route
 import react.router.Routes
@@ -15,18 +16,19 @@ fun main() {
 
 val MRouter = VFC {
     BrowserRouter {
+        basename = "/tdahelper"
         Routes {
             Route {
-                this.index = true
-                this.element = createElement(DailyList)
+                path = "/"
+                element = DailyList.create()
             }
             Route {
                 this.path = "/default"
-                this.element = createElement(DefaultList)
+                this.element = DefaultList.create()
             }
             Route {
                 this.path = "/delayed"
-                this.element = createElement(DelayedList)
+                this.element = DelayedList.create()
             }
         }
     }

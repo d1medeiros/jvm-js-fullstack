@@ -3,6 +3,7 @@ package components
 import Subject
 import csstype.Color
 import csstype.integer
+import csstype.px
 import emotion.react.css
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -28,8 +29,9 @@ val TestComponent = FC<Props> {
         Grid {
             item = true
             Typography {
-                css{
+                css {
                     color = Color("white")
+                    padding = 5.px
                 }
                 variant = TypographyVariant.h4
                 +"ambiente de teste"
@@ -41,7 +43,7 @@ val TestComponent = FC<Props> {
             spacing = responsive(2)
             Chip {
                 label = ReactNode("+ day")
-                css{
+                css {
                     color = Color("white")
                 }
                 onClick = {
@@ -52,7 +54,7 @@ val TestComponent = FC<Props> {
             }
             Chip {
                 label = ReactNode("+ week")
-                css{
+                css {
                     color = Color("white")
                 }
                 onClick = {
@@ -64,7 +66,7 @@ val TestComponent = FC<Props> {
 
             Chip {
                 label = ReactNode("+ month")
-                css{
+                css {
                     color = Color("white")
                 }
                 onClick = {

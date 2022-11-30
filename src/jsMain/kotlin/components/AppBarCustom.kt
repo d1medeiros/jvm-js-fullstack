@@ -1,5 +1,8 @@
 package components
 
+import PAGES
+import csstype.FontSize
+import csstype.FontWeight
 import csstype.number
 import csstype.px
 import emotion.react.css
@@ -8,10 +11,9 @@ import kotlinx.coroutines.launch
 import mui.icons.material.Menu
 import mui.material.*
 import mui.material.styles.TypographyVariant
+import mui.system.sx
 import react.FC
 import react.Props
-import react.ReactNode
-import react.router.dom.Link
 import react.router.useNavigate
 import react.useState
 
@@ -44,10 +46,22 @@ val AppBarCustom = FC<AppBarCustomProps> {
 
                 }
                 Box{
+
                     Typography {
-                        noWrap = true
-                        variant = TypographyVariant.h6
+                        sx {
+                            fontSize = FontSize.small
+                            fontWeight = FontWeight.bold
+                            marginLeft = 10.px
+                        }
                         +it.typography
+                    }
+                    Typography {
+                        sx {
+                            fontSize = FontSize.xxSmall
+                            marginLeft = 10.px
+                        }
+                        variant = TypographyVariant.overline
+                        +it.date
 
                     }
                 }
@@ -64,7 +78,7 @@ val AppBarCustom = FC<AppBarCustomProps> {
             }
             Box{
                 List{
-                    for (i in pages) {
+                    for (i in PAGES) {
                         ListItem{
                             ListItemButton{
                                 Typography{
@@ -81,39 +95,3 @@ val AppBarCustom = FC<AppBarCustomProps> {
         }
     }
 }
-
-val lixo = FC<AppBarCustomProps>{
-    Toolbar {
-        Typography {
-            +"${it.typography} ${it.date}"
-            css {
-                paddingRight = 10.px
-            }
-        }
-        Divider {
-            orientation = Orientation.vertical
-        }
-
-        Link {
-            to = "/default"
-            Chip {
-                label = ReactNode("default")
-            }
-        }
-        Divider {
-            orientation = Orientation.vertical
-        }
-        Link {
-            to = "/"
-            Chip {
-                label = ReactNode("daily")
-            }
-        }
-    }
-}
-
-val pages =  mapOf(
-    "default" to "/default",
-    "daily" to "/",
-    "delayed" to "/delayed",
-)

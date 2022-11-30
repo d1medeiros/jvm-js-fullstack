@@ -45,7 +45,7 @@ fun main() {
             gzip()
         }
         routing {
-            get("/") {
+            get("/tdahelper/{...}") {
                 call.respondText(
                     this::class.java.classLoader.getResource("index.html")!!.readText(),
                     ContentType.Text.Html

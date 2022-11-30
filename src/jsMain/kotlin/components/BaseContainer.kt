@@ -1,5 +1,6 @@
 package components
 
+import ALLOWED_TO_CLOSE
 import Event
 import csstype.number
 import getEventDailyList
@@ -37,10 +38,7 @@ val BaseContainer = FC<BaseContainerProps> {
         }
     }
 
-//    document.bgColor = "gray"
     Box {
-//        maxWidth = "false"
-//        fixed = true
         sx { flexGrow = number(1.0) }
         Card {
             variant = PaperVariant.outlined
@@ -62,7 +60,7 @@ val BaseContainer = FC<BaseContainerProps> {
                             key = item.id.toString()
                             alignItems = ListItemAlignItems.flexStart
                             ListItemButton {
-                                disabled = title !== "diario"
+                                disabled = ALLOWED_TO_CLOSE.any { n -> n == title }.not()
                                 onClick = {
                                     scope.launch {
                                         val id = item.id ?: ""
