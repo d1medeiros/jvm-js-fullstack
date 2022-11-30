@@ -1,16 +1,19 @@
 package components
 
-import Subject
+import csstype.number
 import csstype.px
 import emotion.react.css
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
+import mui.icons.material.Menu
 import mui.material.*
+import mui.material.styles.TypographyVariant
 import react.FC
 import react.Props
 import react.ReactNode
 import react.router.dom.Link
-import timesPlus
+import react.router.useNavigate
+import react.useState
 
 private val scope = MainScope()
 
@@ -20,66 +23,97 @@ external interface AppBarCustomProps : Props {
 }
 
 val AppBarCustom = FC<AppBarCustomProps> {
+    val (isOpen, setIsOpen) = useState(false)
+    val navigate = useNavigate()
     AppBar {
         position = AppBarPosition.static
-        Toolbar {
-            Typography {
-                +"${it.typography} ${it.date}"
-                css {
-                    paddingRight = 10.px
+        Container {
+            maxWidth = "xl"
+            Toolbar{
+                disableGutters = true
+                IconButton {
+                    Menu()
+                    css{
+                        flexGrow = number(1.0)
+                    }
+                    onClick = {
+                        scope.launch {
+                            setIsOpen(!isOpen)
+                        }
+                    }
+
                 }
-            }
-            Divider {
-                orientation = Orientation.vertical
-            }
-            Chip {
-                label = ReactNode("+ day")
-                onClick = {
-                    scope.launch {
-                        timesPlus(Subject.DAY)
+                Box{
+                    Typography {
+                        noWrap = true
+                        variant = TypographyVariant.h6
+                        +it.typography
+
                     }
                 }
             }
-            Divider {
-                orientation = Orientation.vertical
+        }
+    }
+    Box {
+        Drawer{
+            open = isOpen
+            onClose = { _: dynamic, _: String ->
+                scope.launch {
+                    setIsOpen(!isOpen)
+                }
             }
-            Chip {
-                label = ReactNode("+ week")
-                onClick = {
-                    scope.launch {
-                        timesPlus(Subject.WEEK)
+            Box{
+                List{
+                    for (i in pages) {
+                        ListItem{
+                            ListItemButton{
+                                Typography{
+                                    +i.key
+                                }
+                                onClick = {
+                                    navigate.invoke(i.value)
+                                }
+                            }
+                        }
                     }
-                }
-            }
-            Divider {
-                orientation = Orientation.vertical
-            }
-            Chip {
-                label = ReactNode("+ month")
-                onClick = {
-                    scope.launch {
-                        timesPlus(Subject.MONTH)
-                    }
-                }
-            }
-            Divider {
-                orientation = Orientation.vertical
-            }
-            Link {
-                to = "/default"
-                Chip {
-                    label = ReactNode("default")
-                }
-            }
-            Divider {
-                orientation = Orientation.vertical
-            }
-            Link {
-                to = "/"
-                Chip {
-                    label = ReactNode("daily")
                 }
             }
         }
     }
 }
+
+val lixo = FC<AppBarCustomProps>{
+    Toolbar {
+        Typography {
+            +"${it.typography} ${it.date}"
+            css {
+                paddingRight = 10.px
+            }
+        }
+        Divider {
+            orientation = Orientation.vertical
+        }
+
+        Link {
+            to = "/default"
+            Chip {
+                label = ReactNode("default")
+            }
+        }
+        Divider {
+            orientation = Orientation.vertical
+        }
+        Link {
+            to = "/"
+            Chip {
+                label = ReactNode("daily")
+            }
+        }
+    }
+}
+
+val pages =  mapOf(
+    "default" to "/default",
+    "daily" to "/",
+    "delayed" to "/delayed",
+)

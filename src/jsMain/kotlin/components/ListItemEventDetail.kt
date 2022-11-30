@@ -11,6 +11,7 @@ import mui.material.styles.TypographyVariant
 import mui.system.responsive
 import react.FC
 import react.Props
+import react.dom.html.ReactHTML.div
 
 
 external interface EventDetailProps : Props {
@@ -39,36 +40,39 @@ val ListItemEventDetail = FC<EventDetailProps> {
             }
             +event.baseDate.toString()
         }
-        Grid {
-            container = true
-            spacing = responsive(2)
+        div {
             hidden = !(it.hidden ?: false)
+
             Grid {
-                item = true
-                css {
-                    fontWeight = csstype.FontWeight.bold
+                container = true
+                spacing = responsive(2)
+                Grid {
+                    item = true
+                    css {
+                        fontWeight = csstype.FontWeight.bold
+                    }
+                    +"frequencia:"
                 }
-                +"frequencia:"
-            }
-            Grid {
-                item = true
-                +"${event.frequency?.times}x ${event.frequency?.subject?.toString()?.lowercase()}"
-            }
-        }
-        Grid {
-            container = true
-            spacing = responsive(2)
-            hidden = !(it.hidden ?: false)
-            Grid {
-                item = true
-                css {
-                    fontWeight = csstype.FontWeight.bold
+                Grid {
+                    item = true
+                    +"${event.frequency?.times}x ${event.frequency?.subject?.toString()?.lowercase()}"
                 }
-                +"tipo:"
             }
             Grid {
-                item = true
-                +event.type.toString().lowercase()
+                container = true
+                spacing = responsive(2)
+                hidden = !(it.hidden ?: false)
+                Grid {
+                    item = true
+                    css {
+                        fontWeight = csstype.FontWeight.bold
+                    }
+                    +"tipo:"
+                }
+                Grid {
+                    item = true
+                    +event.type.toString().lowercase()
+                }
             }
         }
     }

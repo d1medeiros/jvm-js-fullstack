@@ -1,10 +1,10 @@
 package components
 
 import Event
+import csstype.number
 import getEventDailyList
 import getTimes
 import isLimit
-import kotlinx.browser.document
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.MainScope
@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDateTime
 import moveToDone
 import mui.material.*
-import mui.system.Container
+import mui.system.sx
 import react.*
 
 private val scope = MainScope()
@@ -37,11 +37,14 @@ val BaseContainer = FC<BaseContainerProps> {
         }
     }
 
-    document.bgColor = "gray"
-    Container {
-        maxWidth = "sm"
-        fixed = true
+//    document.bgColor = "gray"
+    Box {
+//        maxWidth = "false"
+//        fixed = true
+        sx { flexGrow = number(1.0) }
         Card {
+            variant = PaperVariant.outlined
+            TestComponent {}
             AppBarCustom {
                 typography = title
                 date = dateTime?.date.toString()
