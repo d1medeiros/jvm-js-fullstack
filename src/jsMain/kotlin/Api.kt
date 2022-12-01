@@ -19,12 +19,16 @@ suspend fun getEventDefaultList(): List<Event> {
     return jsonClient.get("$endpoint/events").body()
 }
 
-suspend fun getEventDailyList(): List<Event> {
-    return jsonClient.get("$endpoint/events?type=daily").body()
+suspend fun getEventDailyList(finished: Boolean? = null): List<Event> {
+    var urlString = "$endpoint/events?type=${Page.DAILY.label}"
+    finished?.run {
+        urlString += "&finished=$this"
+    }
+    return jsonClient.get(urlString).body()
 }
 
 suspend fun getEventDelayedList(): List<Event> {
-    return jsonClient.get("$endpoint/events?type=delayed").body()
+    return jsonClient.get("$endpoint/events?type=${Page.DELAYED.label}").body()
 }
 
 suspend fun moveToDone(id: String) {

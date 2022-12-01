@@ -7,8 +7,9 @@ class EventComponent(
         return eventRepository.getAll(defaultList)
     }
 
-    fun findAllDaily(): List<Event> {
-        return eventRepository.getAll(dailyList, false)
+    fun findAllDaily(finishedString: String? = null): List<Event> {
+        val finished = finishedString?.let { it.toBooleanStrictOrNull() } ?: false
+        return eventRepository.getAll(dailyList, finished)
     }
 
     fun findAllDelayed(): List<Event> {
@@ -32,7 +33,7 @@ class EventComponent(
         eventRepository.save(event)
     }
 
-    fun updateToDelayed(id: String) {
-        eventRepository.moveFrom(id, dailyList, delayedList)
+    fun updateToDelayed(id: String, closeDate: LocalDateTime) {
+        eventRepository.moveFrom(id, dailyList, delayedList, closeDate)
     }
 }

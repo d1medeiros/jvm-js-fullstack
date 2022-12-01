@@ -115,8 +115,10 @@ fun main() {
             route("/events") {
                 get {
                     val list = when {
-                        call.request.queryParameters["type"] == "daily" -> eventComponent.findAllDaily()
-                        call.request.queryParameters["type"] == "delayed" -> eventComponent.findAllDelayed()
+                        call.request.queryParameters["type"] == DAILY
+                            -> eventComponent.findAllDaily(call.request.queryParameters["finished"])
+                        call.request.queryParameters["type"] == DELAYED
+                            -> eventComponent.findAllDelayed()
                         else -> eventComponent.findAllDefault()
                     }
                     call.respond(list)
@@ -167,8 +169,3 @@ class Scheduler(
     }
 }
 
-
-const val defaultList = 1L
-const val dailyList = 2L
-const val delayedList = 3L
-const val doneList = 4L

@@ -1,17 +1,13 @@
 package components
 
-import PAGES
-import csstype.FontSize
-import csstype.FontWeight
+import Page
 import csstype.number
-import csstype.px
 import emotion.react.css
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import mui.icons.material.Menu
 import mui.material.*
 import mui.material.styles.TypographyVariant
-import mui.system.sx
 import react.FC
 import react.Props
 import react.router.useNavigate
@@ -31,11 +27,11 @@ val AppBarCustom = FC<AppBarCustomProps> {
         position = AppBarPosition.static
         Container {
             maxWidth = "xl"
-            Toolbar{
+            Toolbar {
                 disableGutters = true
                 IconButton {
                     Menu()
-                    css{
+                    css {
                         flexGrow = number(1.0)
                     }
                     onClick = {
@@ -45,47 +41,42 @@ val AppBarCustom = FC<AppBarCustomProps> {
                     }
 
                 }
-                Box{
-
-                    Typography {
-                        sx {
-                            fontSize = FontSize.small
-                            fontWeight = FontWeight.bold
-                            marginLeft = 10.px
-                        }
-                        +it.typography
+                Box {
+                    css {
+                        flexGrow = number(1.0)
                     }
-                    Typography {
-                        sx {
-                            fontSize = FontSize.xxSmall
-                            marginLeft = 10.px
-                        }
+                    Typography{
+                        variant = TypographyVariant.h6
+                        +it.typography.uppercase()
+                    }
+                }
+                Box {
+                    Typography{
                         variant = TypographyVariant.overline
                         +it.date
-
                     }
                 }
             }
         }
     }
     Box {
-        Drawer{
+        Drawer {
             open = isOpen
             onClose = { _: dynamic, _: String ->
                 scope.launch {
                     setIsOpen(!isOpen)
                 }
             }
-            Box{
-                List{
-                    for (i in PAGES) {
-                        ListItem{
-                            ListItemButton{
-                                Typography{
-                                    +i.key
+            Box {
+                List {
+                    for (i in Page.values()) {
+                        ListItem {
+                            ListItemButton {
+                                Typography {
+                                    +i.translated
                                 }
                                 onClick = {
-                                    navigate.invoke(i.value)
+                                    navigate.invoke(i.index)
                                 }
                             }
                         }

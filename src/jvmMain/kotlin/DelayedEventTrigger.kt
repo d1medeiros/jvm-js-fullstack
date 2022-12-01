@@ -8,7 +8,7 @@ class DelayedEventTrigger(
             it.label == event.label && it.baseDate.isLimit(dateTime)
         }
         if (lastEvent != null) {
-            eventComponent.updateToDelayed(event.id!!)
+            eventComponent.updateToDelayed(event.id!!, dateTime)
         }
         return null
     }

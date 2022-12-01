@@ -3,7 +3,7 @@ package pages
 import Event
 import Page
 import components.BaseContainer
-import getEventDefaultList
+import getEventDailyList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.MainScope
@@ -13,12 +13,12 @@ import react.Props
 
 private val scope = MainScope()
 
-val DefaultList = FC<Props> {
+val FinishedList = FC<Props> {
     BaseContainer{
-        title = Page.DEFAULT.translated
+        title = Page.FINISHED.translated
         getList =  fun (s: CoroutineScope): Deferred<List<Event>> {
             return s.async {
-                getEventDefaultList()
+                getEventDailyList(true)
             }
         }
     }

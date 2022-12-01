@@ -1,6 +1,7 @@
 package pages
 
 import Event
+import Page
 import components.BaseContainer
 import getEventDelayedList
 import kotlinx.coroutines.CoroutineScope
@@ -14,7 +15,7 @@ private val scope = MainScope()
 
 val DelayedList = FC<Props> {
     BaseContainer{
-        title = "delayed"
+        title = Page.DELAYED.translated
         getList = fun (s: CoroutineScope): Deferred<List<Event>> {
             return s.async {
                 getEventDelayedList()

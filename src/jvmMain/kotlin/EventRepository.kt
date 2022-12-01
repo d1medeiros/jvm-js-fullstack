@@ -88,11 +88,12 @@ class EventRepository {
         }
     }
 
-    fun moveFrom(id: String, from: Long, to: Long) {
+    fun moveFrom(id: String, from: Long, to: Long, closeDateU: LocalDateTime) {
         eventList.firstOrNull {
             it.id == id && it.notebookId == from
         }?.apply {
             notebookId = to
+            closeDate = closeDateU
         }
     }
 

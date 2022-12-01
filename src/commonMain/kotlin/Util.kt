@@ -72,3 +72,4 @@ fun Boolean.toByte(): Byte {
         else -> 1.toByte()
     }
 }
+

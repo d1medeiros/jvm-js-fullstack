@@ -1,17 +1,15 @@
 package components
 
 import Event
-import csstype.Color
+import csstype.FontSize
 import csstype.FontWeight
 import emotion.react.css
 import mui.material.Box
 import mui.material.Grid
-import mui.material.Typography
-import mui.material.styles.TypographyVariant
+import mui.material.GridDirection
 import mui.system.responsive
 import react.FC
 import react.Props
-import react.dom.html.ReactHTML.div
 
 
 external interface EventDetailProps : Props {
@@ -25,55 +23,57 @@ val ListItemEventDetail = FC<EventDetailProps> {
     val event = it.event
     val dateRed = it.dateRed ?: false
     Box {
-        Typography {
-            +event.resume!!
-        }
-        Typography {
-            variant = TypographyVariant.overline
-            css {
-                when {
-                    dateRed -> {
-                        color = Color("red")
-                        fontWeight = FontWeight.bold
-                    }
-                }
-            }
-            +event.baseDate.toString()
-        }
-        div {
-            hidden = !(it.hidden ?: false)
-
+        Grid {
+            container = true
+            spacing = responsive(1)
+            direction = responsive(GridDirection.column)
             Grid {
-                container = true
-                spacing = responsive(2)
-                Grid {
-                    item = true
-                    css {
-                        fontWeight = csstype.FontWeight.bold
-                    }
-                    +"frequencia:"
+                item = true
+                css {
+                    fontSize = FontSize.small
                 }
-                Grid {
-                    item = true
-                    +"${event.frequency?.times}x ${event.frequency?.subject?.toString()?.lowercase()}"
+                +event.label
+            }
+            Grid {
+                item = true
+                css {
+                    fontSize = FontSize.small
+                    fontWeight = FontWeight.lighter
+                }
+                +event.resume!!
+            }
+            Grid {
+                item = true
+                Label {
+                    label = "data"
+                    value = event.baseDate.toString()
                 }
             }
             Grid {
-                container = true
-                spacing = responsive(2)
+                item = true
+                hidden = event.closeDate == null
+                Label {
+                    label = "data conclusão"
+                    value = event.closeDate?.let { c -> c.toString() } ?: ""
+                }
+            }
+            Grid {
+                item = true
                 hidden = !(it.hidden ?: false)
-                Grid {
-                    item = true
-                    css {
-                        fontWeight = csstype.FontWeight.bold
-                    }
-                    +"tipo:"
+                Label {
+                    label = "frequencia"
+                    value = "${event.frequency?.times}x ${event.frequency?.subject?.toString()?.lowercase()}"
                 }
-                Grid {
-                    item = true
-                    +event.type.toString().lowercase()
+            }
+            Grid {
+                item = true
+                hidden = !(it.hidden ?: false)
+                Label {
+                    label = "tipo"
+                    value = event.type.toString().lowercase()
                 }
             }
         }
     }
 }
+

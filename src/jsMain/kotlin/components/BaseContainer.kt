@@ -2,6 +2,7 @@ package components
 
 import ALLOWED_TO_CLOSE
 import Event
+import Page
 import csstype.number
 import getEventDailyList
 import getTimes
@@ -59,7 +60,11 @@ val BaseContainer = FC<BaseContainerProps> {
                         ListItem {
                             key = item.id.toString()
                             alignItems = ListItemAlignItems.flexStart
+                            divider = true
                             ListItemButton {
+                                sx { flexGrow = number(0.0) }
+                                disableGutters = true
+                                // TODO: usar enum
                                 disabled = ALLOWED_TO_CLOSE.any { n -> n == title }.not()
                                 onClick = {
                                     scope.launch {
@@ -76,7 +81,6 @@ val BaseContainer = FC<BaseContainerProps> {
                                         checked = cbIndex == item.id
                                     }
                                 }
-
                             }
                             ListItemButton {
                                 onClick = {
@@ -98,7 +102,7 @@ val BaseContainer = FC<BaseContainerProps> {
                                     this.event = item
                                     this.hidden = detailIndexMO == item.id
                                     this.dateRed = dateTime
-                                        ?.takeIf { title === "diario" }
+                                        ?.takeIf { title === Page.DAILY.translated }
                                         ?.let { item.baseDate.isLimit(it) } ?: false
                                 }
                             }
