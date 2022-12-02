@@ -10,6 +10,7 @@ import mui.material.GridDirection
 import mui.system.responsive
 import react.FC
 import react.Props
+import toPrint
 
 
 external interface EventDetailProps : Props {
@@ -46,7 +47,7 @@ val ListItemEventDetail = FC<EventDetailProps> {
                 item = true
                 Label {
                     label = "data"
-                    value = event.baseDate.toString()
+                    value = event.baseDate.toPrint()!!
                 }
             }
             Grid {
@@ -54,7 +55,7 @@ val ListItemEventDetail = FC<EventDetailProps> {
                 hidden = event.closeDate == null
                 Label {
                     label = "data conclusão"
-                    value = event.closeDate?.let { c -> c.toString() } ?: ""
+                    value = event.closeDate?.toPrint() ?: ""
                 }
             }
             Grid {

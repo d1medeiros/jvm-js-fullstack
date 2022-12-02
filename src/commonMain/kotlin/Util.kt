@@ -1,6 +1,9 @@
 import kotlinx.datetime.*
 
 val tz = TimeZone.UTC
+
+const val dateTimePrintFormat = "dd/MM/yyyy hh:mm:ss"
+
 fun LocalDateTime.plusFrequency(frequency: Frequency): LocalDateTime {
     val t = frequency.times.toLong()
     return when (frequency.subject) {
@@ -39,6 +42,7 @@ fun LocalDateTime.isAfterOrEqual(d2: LocalDateTime): Boolean {
         else -> true
     }
 }
+
 fun LocalDateTime.isAfter(d2: LocalDateTime): Boolean {
     val compareTo = this.compareTo(d2)
     return when {
@@ -50,6 +54,16 @@ fun LocalDateTime.isAfter(d2: LocalDateTime): Boolean {
 fun LocalDateTime.isLimit(date: LocalDateTime): Boolean {
     val plusWeeks = plus(this, 1L, DateTimeUnit.WEEK)
     return date.isAfterOrEqual(plusWeeks)
+}
+
+fun LocalDateTime?.toPrint(): String? {
+    this ?: return null
+    return this.date.dayOfMonth.toString() + "/" +
+            this.date.month.number + "/" +
+            this.date.year + " " +
+            this.time.hour.padTime() + ":" +
+            this.time.minute.padTime() + ":" +
+            this.time.second.padTime()
 }
 
 fun Frequency?.getNextDateTime(dataBase: LocalDateTime): LocalDateTime {
@@ -73,3 +87,6 @@ fun Boolean.toByte(): Byte {
     }
 }
 
+fun Int.padTime(): String {
+    return this.toString().padStart(2, '0')
+}
