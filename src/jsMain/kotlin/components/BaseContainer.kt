@@ -43,7 +43,9 @@ val BaseContainer = FC<BaseContainerProps> {
         sx { flexGrow = number(1.0) }
         Card {
             variant = PaperVariant.outlined
-            TestComponent {}
+            HeaderComponent {
+                debug = true
+            }
             AppBarCustom {
                 typography = title
                 date = dateTime?.date.toString()

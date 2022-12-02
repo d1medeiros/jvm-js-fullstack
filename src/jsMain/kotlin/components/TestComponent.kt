@@ -2,6 +2,7 @@ package components
 
 import Subject
 import csstype.Color
+import csstype.JustifyContent
 import csstype.integer
 import csstype.px
 import emotion.react.css
@@ -25,6 +26,7 @@ val TestComponent = FC<Props> {
         css {
             zIndex = integer(111111)
             backgroundColor = Color("red")
+            justifyContent = JustifyContent.center
         }
         Grid {
             item = true
@@ -32,6 +34,7 @@ val TestComponent = FC<Props> {
                 css {
                     color = Color("white")
                     padding = 5.px
+
                 }
                 variant = TypographyVariant.h4
                 +"ambiente de teste"
@@ -77,4 +80,35 @@ val TestComponent = FC<Props> {
             }
         }
     }
+}
+
+external interface HeaderComponentProps : Props {
+    var debug: Boolean?
+}
+
+val HeaderComponent = FC<HeaderComponentProps> {
+    return@FC when {
+        it.debug ?: false -> TestComponent {}
+        else -> Grid {
+            container = true
+            css {
+                zIndex = integer(111111)
+                backgroundColor = Color("#1976d2")
+                justifyContent = JustifyContent.center
+            }
+            Grid {
+                item = true
+                Typography {
+                    css {
+                        color = Color("white")
+                        padding = 5.px
+
+                    }
+                    variant = TypographyVariant.h6
+                    +"TDAHELPER"
+                }
+            }
+        }
+    }
+
 }
