@@ -46,7 +46,7 @@ val AppBarCustom = FC<AppBarCustomProps> {
                         flexGrow = number(1.0)
                     }
                     Typography{
-                        variant = TypographyVariant.h6
+                        variant = TypographyVariant.overline
                         +it.typography.uppercase()
                     }
                 }
